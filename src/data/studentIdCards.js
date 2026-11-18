@@ -1,12 +1,42 @@
-import { students as initialStudents } from "./students";
+import { additionalStudents, students as initialStudents } from "./students";
 
 export const DEFAULT_CARD_VALID_THROUGH = "2027-06-30";
 const CARD_STATUS_KEY = "college-student-id-card-status";
 const STUDENTS_KEY = "college-managed-students";
+const STUDENT_SEED_VERSION_KEY = "college-student-seed-version";
+const STUDENT_SEED_VERSION = "3";
 
 export function getManagedStudents() {
   const saved = localStorage.getItem(STUDENTS_KEY);
-  return saved ? JSON.parse(saved) : initialStudents;
+  if (!saved) {
+    localStorage.setItem(STUDENT_SEED_VERSION_KEY, STUDENT_SEED_VERSION);
+    return initialStudents;
+  }
+
+  const managed = JSON.parse(saved);
+  if (localStorage.getItem(STUDENT_SEED_VERSION_KEY) === STUDENT_SEED_VERSION) {
+    return managed;
+  }
+
+  const existingIds = new Set(managed.map((student) => String(student.id)));
+  const seededStudents = new Map(additionalStudents.map((student) => [String(student.id), student]));
+  const sharedSeedAvatars = new Set([
+    "/student-avatars/student-1.jpg",
+    "/student-avatars/student-2.jpg",
+    "/student-avatars/student-3.jpg"
+  ]);
+  const migrated = [
+    ...managed.map((student) => {
+      const seededStudent = seededStudents.get(String(student.id));
+      return seededStudent && sharedSeedAvatars.has(student.image)
+        ? { ...student, image: seededStudent.image }
+        : student;
+    }),
+    ...additionalStudents.filter((student) => !existingIds.has(String(student.id)))
+  ];
+  saveManagedStudents(migrated);
+  localStorage.setItem(STUDENT_SEED_VERSION_KEY, STUDENT_SEED_VERSION);
+  return migrated;
 }
 
 export function saveManagedStudents(students) {

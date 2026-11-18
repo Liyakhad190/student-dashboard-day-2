@@ -10,6 +10,7 @@ import StudentIDCard from "../../components/StudentIDCard";
 import PageHeader from "../../components/PageHeader";
 import Modal from "../../components/Modal";
 import Toast from "../../components/Toast";
+import { faculty } from "../../data/faculty";
 import {
   DEFAULT_CARD_VALID_THROUGH,
   getCardStatusMap,
@@ -107,13 +108,47 @@ export default function AdminPortal() {
       ));
       setToastMessage("Student record updated.");
     } else {
-      updateStudents((items) => [...items, {
-        ...student,
-        id: Date.now(),
-        image: "/student-avatars/student-1.jpg",
-        status: "Active"
-      }]);
-      setToastMessage("Student added.");
+      const photo = formData.get("photo");
+      if (!(photo instanceof File) || photo.size === 0) {
+        setStudentFormError("Choose a student photograph.");
+        return;
+      }
+      if (!photo.type.startsWith("image/")) {
+        setStudentFormError("Choose an image file for the student photograph.");
+        return;
+      }
+      if (photo.size > 500 * 1024) {
+        setStudentFormError("Choose an image smaller than 500 KB.");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onerror = () => setStudentFormError("Unable to read the selected photograph.");
+      reader.onload = () => {
+        if (typeof reader.result !== "string") {
+          setStudentFormError("The selected photograph could not be converted.");
+          return;
+        }
+        if (students.some((item) => item.image === reader.result)) {
+          setStudentFormError("Choose a photograph not already used by another student.");
+          return;
+        }
+        try {
+          updateStudents((items) => [...items, {
+            ...student,
+            id: Date.now(),
+            image: reader.result,
+            status: "Active"
+          }]);
+          setToastMessage("Student added.");
+          setStudentDialog(null);
+        } catch (error) {
+          console.error("Unable to save the new student record.", error);
+          setStudentFormError("Unable to save the student record in browser storage.");
+        }
+      };
+      reader.readAsDataURL(photo);
+      return;
     }
     setStudentDialog(null);
   };
@@ -215,9 +250,9 @@ export default function AdminPortal() {
         <>
           <DashboardStats items={[
             { label: "Total Students", value: students.length, icon: "◉", description: "Registered student records" },
-            { label: "Total Faculty", value: 12, icon: "♙", description: "Across college departments" },
+            { label: "Total Faculty", value: faculty.length, icon: "♙", description: "Across college departments" },
             { label: "Departments", value: 4, icon: "◆", description: "Academic departments" },
-            { label: "Active Accounts", value: students.filter((item) => item.status === "Active").length + 12, icon: "✓", description: "Students and faculty" }
+            { label: "Active Accounts", value: students.filter((item) => item.status === "Active").length + faculty.filter((item) => item.status === "Active").length, icon: "✓", description: "Students and faculty" }
           ]} />
           {renderStudents()}
         </>
@@ -267,7 +302,7 @@ export default function AdminPortal() {
           })}
         </section>
       )}
-      {page === "faculty" && simplePage("Faculty Members", "View and manage faculty records.", ["Dr. Maya Patel — AIML", "Prof. Raj Kumar — CSE", "Dr. Sneha Rao — ECE"])}
+      {page === "faculty" && simplePage("Faculty Members", "View and manage faculty records.", faculty.map((member) => `${member.name} — ${member.department}`))}
       {page === "departments" && simplePage("Departments", "Assign departments and academic heads.", ["AIML", "CSE", "ECE", "EEE"])}
       {page === "academic-years" && simplePage("Academic Years", "Configure student academic levels.", ["1st Year", "2nd Year", "3rd Year", "4th Year"])}
       {page === "classes" && simplePage("Classes", "Manage classes, subjects and room allocations.", ["AIML 3A", "CSE 3B", "ECE 2A"])}
@@ -322,6 +357,11 @@ export default function AdminPortal() {
               <label className="form-grid-full">Email address <span aria-hidden="true">*</span>
                 <input name="email" type="email" required maxLength={254} defaultValue={studentDialog.student.email} placeholder="student@college.edu" />
               </label>
+              {studentDialog.mode === "add" && (
+                <label className="form-grid-full">Student photograph <span aria-hidden="true">*</span>
+                  <input name="photo" type="file" accept="image/*" required />
+                </label>
+              )}
             </div>
             {studentFormError && <p className="form-inline-error" role="alert">{studentFormError}</p>}
             <div className="modal-actions">

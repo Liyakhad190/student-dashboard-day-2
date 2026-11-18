@@ -24,7 +24,12 @@ export default function Login() {
   return (
     <main className="login-page">
       <form className="login-card" onSubmit={handleSubmit}>
-        <div className="login-brand">🎓</div>
+        <div className="login-brand" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M2 9.5 12 4l10 5.5L12 15 2 9.5Z" fill="currentColor" />
+            <path d="M6 12v4.5c3.5 2.3 8.5 2.3 12 0V12M21 10v5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
         <p className="login-kicker">MSAJ College Portal</p>
         <h1>Welcome back</h1>
         <p className="login-subtitle">Sign in to continue to your dashboard</p>
