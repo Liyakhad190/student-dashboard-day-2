@@ -12,7 +12,7 @@ export default function StudentQRCode({ studentId, size = 96 }) {
         marginSize={4}
         title={`Verify student ID ${studentId}`}
         bgColor="#FFFFFF"
-        fgColor="#4A2F1B"
+        fgColor="#3E2723"
       />
       <span>SCAN TO VERIFY</span>
     </div>
