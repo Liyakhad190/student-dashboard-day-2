@@ -819,7 +819,7 @@ th { color: #64748B; font-size: 13px; }
 .id-card-college .id-card-heading { margin-top: 5px; font-size: 11px; font-weight: 800; letter-spacing: 0.12em; }
 .id-card-year { align-self: start; white-space: nowrap; border: 1px solid rgba(255,255,255,.7); border-radius: 6px; padding: 6px 9px; font-size: 12px; }
 .id-card-main {
-  min-height: 260px;
+  min-height: 238px;
   padding: 22px;
   display: grid;
   grid-template-columns: 132px minmax(0, 1fr) 120px;
@@ -844,7 +844,7 @@ th { color: #64748B; font-size: 13px; }
 .id-card-status.active { color: #3E2723; background: #E8C4BF; }
 .id-card-status.inactive { color: #B91C1C; background: #FEE2E2; }
 .id-card-qr-column { display: flex; justify-content: center; }
-.student-qr-code { padding: 8px; background: #FFFFFF; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.student-qr-code { padding: 8px; border: 1px solid #E8C4BF; border-radius: 10px; background: #FFFFFF; box-shadow: 0 3px 10px rgba(62, 39, 35, .08); display: flex; flex-direction: column; align-items: center; gap: 5px; }
 .student-qr-code svg { display: block; max-width: 100%; height: auto; }
 .student-qr-code span { color: #3E2723; font-size: 9px; font-weight: 800; letter-spacing: 0.08em; white-space: nowrap; }
 .id-card-footer {
@@ -909,23 +909,23 @@ th { color: #64748B; font-size: 13px; }
 .admin-id-card-item .id-card-footer span { font-size: 8px; }
 .admin-id-card-item .id-card-signature strong { font-size: 10px; }
 @container (max-width: 420px) {
-  .admin-id-card-item .id-card-header { min-height: 60px; padding: 8px 10px; grid-template-columns: 38px 1fr auto; gap: 8px; }
-  .admin-id-card-item .college-logo { width: 35px; height: 35px; font-size: 12px; }
-  .admin-id-card-item .id-card-college strong { font-size: 11px; }
-  .admin-id-card-item .id-card-college span { font-size: 8px; }
-  .admin-id-card-item .id-card-college .id-card-heading { font-size: 7px; }
-  .admin-id-card-item .id-card-year { padding: 4px 5px; font-size: 8px; }
-  .admin-id-card-item .id-card-main { min-height: 140px; padding: 9px; grid-template-columns: 68px minmax(0, 1fr) 66px; gap: 8px; }
-  .admin-id-card-item .id-card-photo { width: 68px; height: 90px; }
-  .admin-id-card-item .id-card-details h2 { margin-bottom: 5px; font-size: 13px; }
-  .admin-id-card-item .id-card-fields { column-gap: 6px; }
-  .admin-id-card-item .id-card-fields p { gap: 1px; padding: 3px 0; }
-  .admin-id-card-item .id-card-fields span { font-size: 7px; }
-  .admin-id-card-item .id-card-fields strong { font-size: 9px; }
+  .admin-id-card-item .id-card-header { min-height: 54px; padding: 6px 9px; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 7px; }
+  .admin-id-card-item .college-logo { width: 31px; height: 31px; font-size: 11px; }
+  .admin-id-card-item .id-card-college strong { font-size: 10px; }
+  .admin-id-card-item .id-card-college span { font-size: 7px; }
+  .admin-id-card-item .id-card-college .id-card-heading { margin-top: 2px; font-size: 6.5px; }
+  .admin-id-card-item .id-card-year { padding: 3px 4px; font-size: 7px; }
+  .admin-id-card-item .id-card-main { min-height: 112px; padding: 7px; grid-template-columns: 62px minmax(0, 1fr) 80px; gap: 6px; }
+  .admin-id-card-item .id-card-photo { width: 62px; height: 78px; }
+  .admin-id-card-item .id-card-details h2 { margin-bottom: 2px; font-size: 12px; }
+  .admin-id-card-item .id-card-fields { column-gap: 4px; }
+  .admin-id-card-item .id-card-fields p { gap: 0; padding: 1px 0; }
+  .admin-id-card-item .id-card-fields span { font-size: 6.5px; }
+  .admin-id-card-item .id-card-fields strong { font-size: 8px; }
   .admin-id-card-item .student-qr-code { padding: 3px; gap: 2px; }
-  .admin-id-card-item .student-qr-code svg { width: 54px; height: 54px; }
+  .admin-id-card-item .student-qr-code svg { width: 72px; height: 72px; }
   .admin-id-card-item .student-qr-code span { font-size: 6px; }
-  .admin-id-card-item .id-card-footer { min-height: 46px; padding: 6px 9px; gap: 5px; }
+  .admin-id-card-item .id-card-footer { min-height: 40px; padding: 4px 7px; gap: 4px; }
   .admin-id-card-item .id-card-footer strong { font-size: 7px; }
   .admin-id-card-item .id-card-footer span { font-size: 6px; }
   .admin-id-card-item .id-card-signature strong { font-size: 8px; }
